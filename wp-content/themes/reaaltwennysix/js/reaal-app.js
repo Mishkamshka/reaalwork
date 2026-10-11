@@ -450,6 +450,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // Centre point + size of a rect.
   const box = (r) => ({ x: r.left + r.width / 2, y: r.top + r.height / 2, w: r.width, h: r.height });
 
+  // Grid cards fade in pink first: holdMedia() hides a hidden card's image/video
+  // so the card fades in as just its .pink-bg, then releaseMedia() fades the
+  // media in over it. Media pinkReveal hasn't revealed yet (opacity 0) is left
+  // for pinkReveal to bring in once it loads.
+  function holdMedia(card) {
+    const media = card.querySelector('.project-cats .project-gradient img, .project-cats .project-gradient video');
+    if (!media || gsap.getProperty(card, 'opacity') !== 0 || gsap.getProperty(media, 'opacity') === 0) return null;
+    gsap.killTweensOf(media);
+    gsap.set(media, { opacity: 0 });
+    return media;
+  }
+
+  function releaseMedia(media) {
+    if (media) gsap.to(media, { opacity: 1, duration: 0.6, ease: 'power2.out' });
+  }
+
   // Moves the card's image/video into a fixed layer. The card keeps its size
   // (with its empty box hidden) until land() puts the image back.
   function liftIntoFlight(wrap, image) {
@@ -464,6 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     gsap.set(wrap, { width: wrap.offsetWidth, height: wrap.offsetHeight, visibility: 'hidden' });
+    wrap.classList.add('in-flight');   // hides its .pink-bg too (the grid forces it visible)
     if (image) {
       Object.assign(image.style, { width: '100%', height: '100%', maxWidth: 'none', objectFit: 'cover', display: 'block' });
       layer.appendChild(image);   // same task, so a playing video keeps playing
@@ -487,6 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
           home.parent.insertBefore(image, home.next);
         }
         gsap.set(wrap, { clearProps: 'width,height,visibility' });
+        wrap.classList.remove('in-flight');
         layer.remove();
       },
     };
@@ -568,8 +586,10 @@ document.addEventListener('DOMContentLoaded', () => {
         { autoAlpha: 0 },
         { autoAlpha: 1, duration: 0.3, clearProps: 'opacity,visibility' }, GLIDE_DURATION - 0.3);
       glide.to(heroInfo, { autoAlpha: 1, duration: 0.3, clearProps: 'opacity,visibility' }, GLIDE_DURATION);
+      const held = new Map(onScreen.map((card) => [card, holdMedia(card)]));
       glide.to(onScreen, {
-        autoAlpha: 1, duration: 0.5, ease: 'power1.out', stagger: 0.06,
+        autoAlpha: 1, duration: 0.5, ease: 'power1.out',
+        stagger: { each: 0.06, onComplete() { releaseMedia(held.get(this.targets()[0])); } },
         clearProps: 'opacity,visibility,transform',
       }, GLIDE_DURATION - 0.15);
       await glide;
@@ -581,10 +601,14 @@ document.addEventListener('DOMContentLoaded', () => {
             trigger: card,
             start: 'top 75%',
             invalidateOnRefresh: true,
-            onEnter: () => gsap.to(card, {
-              autoAlpha: 1,  duration: .6, ease: 'power1.inOut',
-              clearProps: 'opacity,visibility,transform,scale',
-            }),
+            onEnter: () => {
+              const media = holdMedia(card);
+              gsap.to(card, {
+                autoAlpha: 1,  duration: .6, ease: 'power1.inOut',
+                clearProps: 'opacity,visibility,transform,scale',
+                onComplete: () => releaseMedia(media),
+              });
+            },
             onLeaveBack: () => gsap.to(card, {
               autoAlpha: 0,  duration: .3, ease: 'power1.inOut',
             }),
@@ -694,18 +718,29 @@ document.addEventListener('DOMContentLoaded', () => {
   // fades in over its .pink-bg, then the pink fades out behind it.
   // Videos with a .video-poster: pink → poster (while the video is still
   // loading) → video. If the video is ready in time, the poster is skipped.
+  // In the list (.og-layout) the pink is only a loading placeholder: media
+  // that's already loaded shows straight away, and the rest fades in as soon
+  // as it loads, without waiting to be scrolled to.
   function pinkReveal(wrap, selector) {
     const media = wrap.querySelector(selector);
     if (!media) return;
     const pinkBg = wrap.querySelector('.pink-bg');
     const poster = wrap.querySelector('.video-poster');
+    const behind = [pinkBg, poster].filter(Boolean);
     const isVideo = media.tagName === 'VIDEO';
+    const inList = () => !!wrap.closest('.og-layout');
 
     let loaded = isVideo ? media.readyState >= 3 : media.complete && media.naturalWidth > 0;
     let posterLoaded = false;
     let inView = false;
     let posterShown = false;
     let played = false;
+
+    if (loaded && inList()) {
+      gsap.set(media, { opacity: 1 });
+      gsap.set(behind, { autoAlpha: 0 });
+      return;
+    }
 
     gsap.set(media, { opacity: 0 });
 
@@ -716,9 +751,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function reveal() {
-      if (!loaded || !inView || played) return;
+      if (!loaded || !(inView || inList()) || played) return;
       played = true;
-      const behind = [pinkBg, poster].filter(Boolean);
       gsap.killTweensOf(behind);
       const tl = gsap.timeline();
       tl.to(media, { opacity: 1, duration: 0.6, ease: 'power2.out' });
