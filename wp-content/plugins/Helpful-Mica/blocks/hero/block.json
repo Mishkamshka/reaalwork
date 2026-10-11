@@ -1,0 +1,15 @@
+{
+    "name": "reaal-block-patterns/hero-sub",
+    "title": "Hero Subtitle",
+    "description": "A simple hero subtitle block.",
+    "category": "cntrl-shft-category",
+    "icon": "admin-comments",
+    "keywords": ["hero", "subtitle"],
+    "acf": {
+        "mode": "auto",
+        "renderTemplate": "hero-sub.php"
+    },
+    "supports": {
+        "lock": false
+      }
+}

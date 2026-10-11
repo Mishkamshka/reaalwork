@@ -1,0 +1,16 @@
+{
+    "name": "acf/hero-section",
+    "title": "Shera",
+    "description": "A custom testimonial block that uses ACF fields.",
+    "style": [ "file:./hero-section.css" ],
+    "category": "formatting",
+    "icon": "admin-comments",
+    "keywords": ["testimonial", "quote"],
+    "acf": {
+        "mode": "auto",
+        "renderTemplate": "hero-section.php"
+    },
+    "supports": {
+        "anchor": true
+    }
+}
