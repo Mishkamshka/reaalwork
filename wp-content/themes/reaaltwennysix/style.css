@@ -258,11 +258,44 @@ div#e04, div#e01 {
 
 /******************************************** PAGE INFO */
 
+section.info-head {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height:100vh;
+  position: relative;
+  padding-top: 3rem;
+}
+
+.key {
+  position: absolute;
+  top: 55%;
+  left: 35%;
+  height: 65vh;
+  transform: translate(-50%, -50%) rotate(304deg);
+}
+
+img.illustration {
+  height: 100%;
+  object-fit: contain;
+}
+
 .info-text {
     padding: 7.5vmax calc(var(--bs-gutter-x) * .5);
     z-index: 2;
     position: relative;
+}
 
+.services {
+  display: grid;
+  row-gap: var(--r-pad);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+section.stretch-mama.service-section {
+  position: relative;
 }
 .phone {
     max-height: 65vh;
@@ -278,9 +311,12 @@ div#e04, div#e01 {
 
 
 .cyat {
-    position: absolute;
-    right: 0;
-    top: -20vh;
+  position: absolute;
+  top: 60%;
+  left: 75%;
+  height: 100vh;
+  transform: translate(-50%, -50%);
+  z-index: 2;
 }
 
 .horsey {
@@ -302,9 +338,14 @@ div#e04, div#e01 {
 }
 
 .service-body {
-    position: relative;
+  position: relative;
+  padding-top: 7.5vmax;
+  padding-bottom: 3.5vmax;
 }
 
+.info-head_text {
+  text-align: center;
+}
 
 
 /******************************************** GRID SWITCH */
@@ -666,7 +707,9 @@ p.about-text-p {
 
 .bottom-problem {
   margin-bottom: calc(var(--bs-gutter-x) * .5);
+  padding-top: 7.5vmax;
 }
+
 .project-info {
   position: absolute;
   left: 0;
@@ -675,12 +718,17 @@ p.about-text-p {
   /* padding-right: 3rem; */
   padding-top: 0.3rem;
 }
+
 .work-page-top{
   padding-top: 3rem;
+    display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: calc(100vh  + 1px);
 }
-.top-info{
+/* .top-info{
   padding-bottom: 33vh;
-}
+} */
 
 .bottom-problem p:nth-last-of-type(1) {
   margin-bottom: 0;
@@ -1584,16 +1632,17 @@ h6 {
 }
 
 h1 {
-  font-size: clamp(4rem, 10vw, 10vw);
+  font-size: clamp(4rem, 11.5vw, 13vw);
   line-height: 1;
   font-weight: 300;
   font-family: 'OficiaMono', sans-serif;
   letter-spacing: 0;
   -webkit-text-stroke: clamp(.15rem, .4vw, .4vw) var(--black);
   text-box: trim-both cap text;
+  display: inline-block;
 }
 
-h2, .services li {
+h2 {
   margin: 0;
   font-style: normal;
   line-height: 1.1;
@@ -1613,7 +1662,7 @@ h3{
 	text-transform: none;
 }
 
-p {
+p, .services li {
 	margin-bottom: .5rem;
 	line-height: 1.2;
   /* letter-spacing: clamp(-0.04rem, -.04vw, -0.55rem); */
@@ -1622,7 +1671,12 @@ p {
 	letter-spacing: -0.08rem;
   font-variation-settings: 'wght' 300, 'wdth' 100;
   font-weight: 300;
+  text-align: justify;
+}
 
+ .services li {
+	margin-bottom:0rem;
+  text-align: center;
 }
 
 span{
@@ -1635,7 +1689,7 @@ span{
 }
 
 
-h5, li {
+h5, li.menu-item{
 	  font-size: 1.3rem;
 	font-weight: 500;
 	  letter-spacing: 0;
@@ -1652,10 +1706,6 @@ h6 {
 
 
 
-.services li {
-    list-style: none;
-    text-align: center;
-}
 
 
 dfn,
@@ -1958,6 +2008,8 @@ header#masthead {
   z-index: 10;
   position: fixed;
   align-items: start;
+  top:0;
+  left: 0;
 }
 
 nav#site-navigation {
@@ -2255,6 +2307,8 @@ nav#site-navigation {
 .click-to-copy {
   position: relative;
   display: inline-block;
+  text-align: center;
+  padding-top: 7.5vmax ;
 }
 
 .click-to-copy .copied-tooltip {
@@ -2274,24 +2328,7 @@ nav#site-navigation {
   line-height: 0.6;
 }
 
-.page-template-page-info .click-to-copy p{
-  font-size: clamp(2rem, 10vw, 4rem);
-  font-weight: 400;
-  font-family: 'OficiaMono', sans-serif;
-  letter-spacing: 0;
-  display: inline-block;
-  line-height: 1;
-  padding-bottom: 0.4rem;
-  transition: ease all .2s;
-    color: var(--pink);
 
-}
-
-.page-template-page-info .click-to-copy:hover p
-{
-    background: var(--black);
-  color: var(--white);
-}
 /*!`
  * Bootstrap Grid v5.3.8 (https://getbootstrap.com/)
  * Copyright 2011-2025 The Bootstrap Authors
@@ -2395,25 +2432,66 @@ nav#site-navigation {
     width: 50%;
   }
 }
+@media (orientation: portrait) {
+  section.info-head {
+  min-height:100%;
+}
+}
+
 
 @media screen and (max-width: 767px) {
+  
+
+  section.info-head, .work-page-top{
+    padding-top:1rem;
+    padding-bottom:3rem;
+  }
+
+
+  .work-menu {
+    margin-right: 0;
+  }
 
   .main-navigation ul {
     align-items: start;
 }
 
-.main-navigation a {
-    color: var(--white);
+header#masthead {
+  bottom: 0;
+  align-items: end;
+  top: unset;
+}
+
+.main-navigation ul {
+  justify-content: end;
 }
 
 .main-navigation li {
-    background-color: var(--black);
-    padding-right: 1.5rem;
-    font-size: 1.1rem;
+  font-size: 1.1rem;
+  -webkit-backdrop-filter: blur(1rem);
+  backdrop-filter: blur(1rem);
 }
 
 .site-branding {
-  max-width: 5rem;
+  max-width: 100%;
+  max-height: 3rem;
+  padding: calc(var(--bs-gutter-x) * .5);
+  position: relative;
+  bottom: unset;
+  left: unset;
+  -webkit-backdrop-filter: blur(1rem);
+  backdrop-filter: blur(1rem);
+}
+
+img.custom-logo {
+  object-fit: contain;
+  width: auto;
+  max-height: 2rem;
+}
+
+.site-branding a {
+  width: auto;
+  justify-content: start;
 }
 
 .next-project {
@@ -2438,9 +2516,9 @@ nav#site-navigation {
     margin-top: 10vh;
   }
 
-  .cyat{
+  .cyat {
     width: 53%;
-    top:-40vh
+    top: 50%;
   }
   .stretched-text {
     padding: calc(var(--bs-gutter-x) * .5);
@@ -2450,6 +2528,10 @@ nav#site-navigation {
   width: 100%;
 }
 
+}
+
+.info-head_body{
+  padding-top: 7.5vmax;
 }
 
 body.error404.wp-custom-logo.wp-theme-reaaltwennysix.hfeed {
@@ -2488,14 +2570,19 @@ section.error-404.not-found {
   padding: 3rem 0;
 }
 
-.desktop-contact .click-to-copy a:hover {
-  background: var(--black);
+/* .desktop-contact .click-to-copy h1:hover {
+  background: var(--black); 
   color: rgb(255 255 255);
   display: inline-block;
 }
-
-.desktop-contact .click-to-copy a {
+*/
+ .click-to-copy h1 {
   transition: ease all .3s;
+} 
+
+.click-to-copy a:hover h1 {
+  color: var(--light);
+  -webkit-text-stroke: clamp(.15rem, .4vw, .4vw) var(--light);
 }
 
 
