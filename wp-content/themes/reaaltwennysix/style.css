@@ -138,7 +138,7 @@ padding: calc(var(--bs-gutter-x) * 1)
 
  .ellipse-word img {
   display: block;
-  height: 1.5vw;
+  height: 0vw;
   width: auto;
   object-fit: contain;
 }
@@ -950,10 +950,11 @@ span.square {
   }
 
   img.call-me {
-    bottom: 5vh;
-    left: 5vw;
     height: 60vh;
     filter: blur(.075rem);
+    transform: translate(-50%, -50%);
+    top: 70%;
+    left: 80%;
   }
 
   img.the-key {
@@ -963,7 +964,7 @@ span.square {
     transform: rotate(11deg);
   }
 
-  @media (max-width:1400px) and (orientation: portrait) {
+  /* @media (max-width:1400px) and (orientation: portrait) {
     img.call-me {
       max-width: 30vw;
       top: 0;
@@ -974,7 +975,7 @@ span.square {
     img.call-me {
       display: none;
     }
-  }
+  } */
 
   .page-contact .stretch-baby {
     position: relative;
@@ -989,7 +990,17 @@ span.square {
 
 
 }
+    img.call-me {
+      pointer-events: none;
+    }
 
+
+.contact-text {
+  padding: 3rem calc(var(--bs-gutter-x) * .5);
+  z-index: 2;
+  position: relative;
+  height: 100vh;
+}
 
 .z-2 {
   position: relative;
@@ -998,6 +1009,7 @@ span.square {
 
 .mobile-contact {
   display: none;
+  text-align: center;
 }
 
 
@@ -1029,6 +1041,10 @@ span.square {
   .mobile-contact .click-to-copy {
     position: relative;
     width: 100%;
+    text-align: center;
+  }
+
+  .mobile-contact p{
     text-align: center;
   }
 
@@ -1984,6 +2000,9 @@ textarea {
   line-height: 0.8;
   padding: calc(var(--bs-gutter-x) * .5);
   transition: ease all .2s;
+  -webkit-backdrop-filter: blur(1rem);
+  backdrop-filter: blur(1rem);
+  background: rgb(255 0 237 / 33%);
 }
 
 .main-navigation a {
@@ -2015,9 +2034,9 @@ header#masthead {
 nav#site-navigation {
   width: 100%;
 }
-.work-menu {
+/* .work-menu {
   margin-right: 3.2%;
-}
+} */
 
 .site-branding {
   display: flex;
@@ -2135,6 +2154,10 @@ nav#site-navigation {
 /* Make sure logo link wraps around logo image. */
 .custom-logo-link {
 	display: inline-block;
+}
+
+.custom-logo-link img{
+  transform-origin: left bottom;
 }
 
 /* Captions
@@ -2468,8 +2491,6 @@ header#masthead {
 
 .main-navigation li {
   font-size: 1.1rem;
-  -webkit-backdrop-filter: blur(1rem);
-  backdrop-filter: blur(1rem);
 }
 
 .site-branding {

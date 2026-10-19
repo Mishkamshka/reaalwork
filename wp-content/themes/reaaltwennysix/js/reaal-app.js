@@ -114,80 +114,43 @@ document.addEventListener('DOMContentLoaded', () => {
   // orbit.js (hide on scroll) and here (show/hide when grid toggle fires).
   const allImg = gsap.utils.toArray('.ellipse-word img');
 
-  // ── STRETCH-MAMA SECTION HEADERS ──────────────────────────────────────────
-  // On scroll, these headers grow from 0 height as they enter the viewport
-  // and shrink back to 0 as they leave — pinned while shrinking.
-  // Used on sections that have the .stretch-mama + .stretch-baby class combo.
-  function animateSectionInfo({ header, i }) {
+  // ── STRETCH HEADERS ───────────────────────────────────────────────────────
+  // On scroll, .stretch-baby headers grow from 0 height as they enter the
+  // viewport and shrink back to 0 as they leave — pinned while shrinking.
+  // Used on .stretch-mama sections and on .project-sections headers (the
+  // latter re-run inside a GSAP context when the grid toggle switches layouts).
+  //
+  // One timeline owns scaleY for the whole trip (grow = first viewport of
+  // scroll, shrink = second). Separate grow/shrink tweens on the same property
+  // fought on load: the shrink fromTo rendered scaleY:1 over the grow's value,
+  // leaving headers stuck at full height until the next scroll/resize.
+  function animateSection({ header, i }) {
     if (!header) return;
-    gsap.set(header, { scaleY: 0, transformOrigin: 'top center' });
-    gsap.to(header, {
-      scaleY: 1,
-      ease: 'none',
+    gsap.timeline({
       scrollTrigger: {
         trigger: header,
         start: 'top bottom',
-        end: `top+=${totalHeightMenu} top+=${totalHeightMenu}`,
+        end:   () => `+=${window.innerHeight * 2}`,
         scrub: true,
-        id: `grow-${i}`,
-        invalidateOnRefresh: true,
+        id: `stretch-${i}`,
       },
-    });
-    gsap.fromTo(header, { scaleY: 1 }, {
-      scaleY: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: header,
-        start: `top+=${totalHeightMenu} top+=${totalHeightMenu}`,
-        end:   () => `+=${window.innerHeight}`,
-        scrub: true,
-        pin: true,
-        pinSpacing: false,
-        id: `shrink-${i}`,
-        invalidateOnRefresh: true,
-      },
+    })
+      .fromTo(header, { scaleY: 0, transformOrigin: 'top center' }, { scaleY: 1, ease: 'none' })
+      .to(header, { scaleY: 0, ease: 'none' });
+
+    // Pin only — starts exactly where the grow half ends.
+    ScrollTrigger.create({
+      trigger: header,
+      start: `top+=${totalHeightMenu} top+=${totalHeightMenu}`,
+      end:   () => `+=${window.innerHeight}`,
+      pin: true,
+      pinSpacing: false,
+      id: `pin-${i}`,
     });
   }
   gsap.utils.toArray('.stretch-mama').forEach((section, i) => {
-    animateSectionInfo({ header: section.querySelector('.stretch-baby'), i });
+    animateSection({ header: section.querySelector('.stretch-baby'), i });
   });
-
-
-  // ── PROJECT SECTION HEADER ANIMATION ──────────────────────────────────────
-  // Same grow/shrink scroll animation as stretch-mama above but used on
-  // individual .project-sections headers. Lives in its own GSAP context so
-  // it can be fully killed and re-run when the grid toggle switches layouts.
-  function animateSection({ header, i }) {
-    if (!header) return;
-    gsap.set(header, { scaleY: 0, transformOrigin: 'top center' });
-    gsap.to(header, {
-      scaleY: 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: header,
-        start: 'top bottom',
-        end: `top+=${totalHeightMenu} top+=${totalHeightMenu}`,
-        scrub: true,
-        id: `grow-${i}`,
-        invalidateOnRefresh: true,
-      },
-    });
-    gsap.fromTo(header, { scaleY: 1 }, {
-      scaleY: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: header,
-        start: `top+=${totalHeightMenu} top+=${totalHeightMenu}`,
-        end:   () => `+=${window.innerHeight}`,
-        scrub: true,
-        pin: true,
-        pinSpacing: false,
-        id: `shrink-${i}`,
-        invalidateOnRefresh: true,
-
-      },
-    });
-  }
 
 /* =============================================================================
    PROJECTS VIEW TOGGLE  ·  list ⇄ grid
@@ -292,6 +255,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function killProjectSections() {
     if (projectSectionsCtx) { projectSectionsCtx.revert(); projectSectionsCtx = null; }
     if (ogLayoutCtx)        { ogLayoutCtx.revert();        ogLayoutCtx = null; }
+    // Reverting the context kills the stretch timelines but can leave their
+    // last scaleY inline (e.g. scale(1, 0)), collapsing grid cards to 0 height.
+    gsap.set(projectHeaderEls, { clearProps: 'transform,transformOrigin' });
     gsap.set('.project-sections .project-img', { clearProps: 'scaleX,transformOrigin' });
     gsap.set('.project-sections .project-info h2, .project-sections .project-info-cats p', { clearProps: 'visibility' });
   }
@@ -794,6 +760,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 gsap.fromTo(".archive .project-sections",  { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: .5, ease: 'power3.out', stagger:{from:"random", amount:0.35}});
+
+  // ── LOGO SHRINK AT PAGE END ────────────────────────────────────────────────
+  // Over the last viewport of scroll, the logo scrubs down to nothing (mobile only).
+  mm.add('(min-width: 768px)', () => {
+    gsap.to('.custom-logo-link img', {
+      scale: 0,
+      ease: 'none',
+      scrollTrigger: {
+        start: () => Math.max(0, ScrollTrigger.maxScroll(window) - window.innerHeight),
+        end: 'max',
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
+    });
+  });
 
 
 

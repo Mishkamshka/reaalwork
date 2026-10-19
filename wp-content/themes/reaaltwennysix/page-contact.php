@@ -22,36 +22,27 @@ get_header();
     <img class="illustration call-me" src="<?php echo get_theme_file_uri('/inc/img/phone.webp') ?>">
     <img class="email cte" src="<?php echo get_theme_file_uri('/inc/img/email.svg') ?>">
 </div>
-<h1>hello@reaal.studio</h1></a>
+<p>email us. plz!!! hello@reaal.studio</p></a>
 </div>
 </section>
 
 
 <div class="desktop-contact">
-    <section class="stretch-mama">
-    <div class="stretch-baby ">
-        <div class="chretch">
-            <img class="stretched-text" src="<?php echo get_theme_file_uri('/inc/img/email-2.svg') ?>">
-        </div>
-    </div>
+        <section class="stretch-mama ">
+            <div class="flex">
+                <div class="flow-body contact-text">
+                    <div class="col-md-12">
+                        <p><?php echo wp_kses_post(get_field('contact_us', 'option')); ?></p>
+                    </div>
+                    <div class="click-to-copy mx-auto col-12">
+                        <a href="<?php echo esc_url('mailto:' . antispambot(get_field('email', 'option'))); ?>"><h1>hello</h1><br><h1>@</h1><br><h1>reaal.studio</h1></a>
+                    </div>
+                        <img class="illustration call-me" src="<?php echo get_theme_file_uri('/inc/img/phone.webp') ?>">
 
-        <div class="info-body">
-             <img class="illustration call-me" src="<?php echo get_theme_file_uri('/inc/img/phone.webp') ?>">
-                 <div class="z-2 click-to-copy">
-                     <a href="<?php echo esc_url('mailto:' . antispambot(get_field('email', 'option'))); ?>"><h1>hello@reaal.studio</h1></a>
                 </div>
-                <img class="illustration the-key" src="<?php echo get_theme_file_uri('/inc/img/key.webp') ?>">
-        </div>    
-</section>
-<section class="stretch-mama">
-    <div class="stretch-baby ">
-        <div class="chretch">
-            <img class="stretched-text" src="<?php echo get_theme_file_uri('/inc/img/email-2.svg') ?>">
-        </div>
-    </div>
+            </div>
+        </section>
 
-   
-</section>
 </div>
 
 </main>
