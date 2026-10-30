@@ -53,7 +53,7 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
 	--large: calc(var(--bs-gutter-x) * 4);
 	--xl: calc(var(--bs-gutter-x) * 6);
 	--spacer: 25vh;
-	--height:60dvh;
+	--height:100dvh;
 }
 
 
@@ -97,7 +97,7 @@ video.video::-webkit-media-controls-overlay-enclosure {
 /******************************************** STRETCH */
 .stretch-baby{
     transform-origin: top center;
-   	height: 100%;
+   	height: var(--height);
     width: 100%;
 }
 
