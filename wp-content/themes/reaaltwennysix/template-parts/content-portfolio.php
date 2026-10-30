@@ -72,18 +72,17 @@
                              <div class="project-info-cats">
                                     
                                     <p class="project-info-details project-into-title"><?php the_title(); ?></p>
-                                    <p class="project-info-details dates"><?php echo esc_html( get_field('year') ); ?></p>
+                                    <p class="project-company"><?php echo wp_kses_post(get_field('company')); ?></p>
+                                    <p class="project-info-details dates project-into-title"><?php echo esc_html( get_field('year') ); ?></p>
                                  <?php $postCats = get_the_terms(get_the_ID(), 'category');
                                         if ($postCats && ! is_wp_error($postCats)) : $last = end($postCats);
-                                            foreach ($postCats as $cat) : ?> <p class="project-cat"><?php echo esc_html($cat->name); ?><?php echo ($cat !== $last) ? '' : ''; ?></p>
-                                     <?php endforeach;
-                                        endif; ?>
+                                        foreach ($postCats as $cat) : ?> <p class="project-cat"><?php echo esc_html($cat->name); ?><?php echo ($cat !== $last) ? '' : ''; ?></p>
+                                <?php endforeach; endif; ?>
 
                              </div>
                          </a>
                      </div>
              
          </section>
-     <?php endwhile;
-        wp_reset_query(); ?>
+     <?php endwhile; wp_reset_query(); ?>
  </div>

@@ -18,9 +18,14 @@ get_header();
                 <h1><?php echo esc_html(get_field('info_section_title')); ?></h1>
             </div>
 
-            <div class="info-head_body col-md-4 col-lg-3 mx-md-auto">
+           <div class="row">
+             <div class="info-head_body col-md-4">
+                <p><span>That's the whole story</span></p>
+            </div>
+             <div class="info-head_body col-md-8">
                 <p><?php echo wp_kses_post(get_field('info_section')); ?></p>
             </div>
+           </div>
         </section>
 
 
@@ -34,9 +39,11 @@ get_header();
                 </div>
             </div>
             <div class="service-body row">
-                <div class="col-md-4 col-lg-3 mx-md-auto">
-                    <p><?php echo wp_kses_post(get_field('service_section_text')); ?></p>
+                <div class="col-md-4">
+                   <p><span>Services</span></p>
                 </div>
+                <div class="col-md-8">
+                     <p><?php echo wp_kses_post(get_field('service_section_text')); ?></p>
                     <div class="service-list">
                         <?php
                         $services =  wp_kses_post(get_field('service_section')); // or get_post_meta() if not using ACF
@@ -58,6 +65,7 @@ get_header();
                     </div>
                 
             </div>
+            </div>
 
 
         </section>
@@ -70,10 +78,15 @@ get_header();
             </div>
             <div class="flex">
                 <div class="flow-body info-text">
-                    <div class="col-md-4 col-lg-3 mx-md-auto">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><span>Call us, email us, do something!</span></p>
+                    </div>
+                    <div class="col-md-8">
                         <p><?php echo wp_kses_post(get_field('contact_us', 'option')); ?></p>
                     </div>
-                    <div class="click-to-copy mx-auto col-12">
+                </div>
+                    <div class="click-to-copy col-md-8 offset-md-4">
                         <a href="<?php echo esc_url('mailto:' . antispambot(get_field('email', 'option'))); ?>"><h1>hello@</h1><br><h1>reaal.studio</h1></a>
                     </div>
                 </div>

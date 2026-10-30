@@ -120,29 +120,37 @@ document.addEventListener('DOMContentLoaded', () => {
   // Used on .stretch-mama sections and on .project-sections headers (the
   // latter re-run inside a GSAP context when the grid toggle switches layouts).
   //
-  // One timeline owns scaleY for the whole trip (grow = first viewport of
-  // scroll, shrink = second). Separate grow/shrink tweens on the same property
-  // fought on load: the shrink fromTo rendered scaleY:1 over the grow's value,
-  // leaving headers stuck at full height until the next scroll/resize.
+  // One trigger owns scaleY for the whole trip, so grow and shrink never fight.
+  // Grow and shrink each take the header's own height of scroll (not the
+  // viewport's), so headers shorter than the screen still tile without gaps:
+  // a growing header's bottom stays on the screen's bottom edge, and a
+  // shrinking one ends exactly where the next header's top is. For full-screen
+  // headers this is the same as grow over one viewport, shrink over the next.
   function animateSection({ header, i }) {
     if (!header) return;
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: header,
-        start: 'top bottom',
-        end:   () => `+=${window.innerHeight * 2}`,
-        scrub: true,
-        id: `stretch-${i}`,
-      },
-    })
-      .fromTo(header, { scaleY: 0, transformOrigin: 'top center' }, { scaleY: 1, ease: 'none' })
-      .to(header, { scaleY: 0, ease: 'none' });
+    gsap.set(header, { scaleY: 0, transformOrigin: 'top center' });
+    const setScaleY = gsap.quickSetter(header, 'scaleY');
 
-    // Pin only — starts exactly where the grow half ends.
+    const update = (self) => {
+      const total = self.end - self.start;
+      const moved = self.progress * total;
+      setScaleY(gsap.utils.clamp(0, 1, Math.min(moved, total - moved) / header.offsetHeight));
+    };
+
+    ScrollTrigger.create({
+      trigger: header,
+      start: 'top bottom',
+      end:   () => `+=${window.innerHeight + header.offsetHeight}`,
+      id: `stretch-${i}`,
+      onUpdate:  update,
+      onRefresh: update,
+    });
+
+    // Pin only — starts exactly where the shrink starts.
     ScrollTrigger.create({
       trigger: header,
       start: `top+=${totalHeightMenu} top+=${totalHeightMenu}`,
-      end:   () => `+=${window.innerHeight}`,
+      end:   () => `+=${header.offsetHeight}`,
       pin: true,
       pinSpacing: false,
       id: `pin-${i}`,
