@@ -53,7 +53,7 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
 	--large: calc(var(--bs-gutter-x) * 4);
 	--xl: calc(var(--bs-gutter-x) * 6);
 	--spacer: 25vh;
-	--height:100dvh;
+	--height:60dvh;
 }
 
 
@@ -97,7 +97,7 @@ video.video::-webkit-media-controls-overlay-enclosure {
 /******************************************** STRETCH */
 .stretch-baby{
     transform-origin: top center;
-   	height: var(--height);
+   	height: 100%;
     width: 100%;
 }
 
@@ -2000,10 +2000,9 @@ textarea {
   line-height: 0.8;
   padding: calc(var(--bs-gutter-x) * .5);
   transition: ease all .2s;
-  -webkit-backdrop-filter: blur(1rem);
-  backdrop-filter: blur(1rem);
-  background: rgb(255 0 237 / 33%);
 }
+
+
 
 .main-navigation a {
 	display: block;
@@ -2477,6 +2476,12 @@ nav#site-navigation {
 
   .main-navigation ul {
     align-items: start;
+}
+
+.main-navigation li {
+  -webkit-backdrop-filter: blur(1rem);
+  backdrop-filter: blur(1rem);
+  background: rgb(255 0 237 / 33%);
 }
 
 header#masthead {

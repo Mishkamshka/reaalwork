@@ -11,7 +11,7 @@ get_header();
 
 <main id="primary" class="site-main">
 
-    <div class="container-fluid id=" info-info">
+    <div class="container-fluid" id="info-info">
 
         <section class="info-head">
             <div class="info-head_text">
@@ -36,6 +36,7 @@ get_header();
             <div class="service-body row">
                 <div class="col-md-4 col-lg-3 mx-md-auto">
                     <p><?php echo wp_kses_post(get_field('service_section_text')); ?></p>
+                </div>
                     <div class="service-list">
                         <?php
                         $services =  wp_kses_post(get_field('service_section')); // or get_post_meta() if not using ACF
@@ -55,7 +56,7 @@ get_header();
                         }
                         ?>
                     </div>
-                </div>
+                
             </div>
 
 
