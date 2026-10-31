@@ -352,6 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isList) {
       killGridLayout();                 // revert pins before their wrappers go
+      [...onPink.keys()].forEach((card) => showOverPink(card, 0));   // un-hide anything still waiting on its pink
       restoreFlatOrder();
       gsap.set('.projects', { clearProps: 'position' });
       initOgLayout();
@@ -424,20 +425,51 @@ document.addEventListener('DOMContentLoaded', () => {
   // Centre point + size of a rect.
   const box = (r) => ({ x: r.left + r.width / 2, y: r.top + r.height / 2, w: r.width, h: r.height });
 
-  // Grid cards fade in pink first: holdMedia() hides a hidden card's image/video
-  // so the card fades in as just its .pink-bg, then releaseMedia() fades the
-  // media in over it. Media pinkReveal hasn't revealed yet (opacity 0) is left
-  // for pinkReveal to bring in once it loads.
+  // Grid cards fade in pink first: holdMedia() puts a hidden card back on its
+  // .pink-bg with the image/video hidden, so the card fades in as just pink,
+  // then releaseMedia() fades the media in over it and the pink out behind it.
+  // Media that hasn't loaded yet stays on the pink for pinkReveal to bring in.
+  const isLoaded = (media) => media.tagName === 'VIDEO' ? media.readyState >= 2 : media.complete && media.naturalWidth > 0;
+
   function holdMedia(card) {
-    const media = card.querySelector('.project-cats .project-gradient img, .project-cats .project-gradient video');
-    if (!media || gsap.getProperty(card, 'opacity') !== 0 || gsap.getProperty(media, 'opacity') === 0) return null;
-    gsap.killTweensOf(media);
+    const wrap  = card.querySelector('.project-gradient');
+    const media = wrap && wrap.querySelector('img, video');
+    if (!media || gsap.getProperty(card, 'opacity') !== 0) return null;
+    const pink = wrap.querySelector('.pink-bg');
+    gsap.killTweensOf([media, pink]);
+    gsap.set(pink, { autoAlpha: 1 });
+    if (!isLoaded(media)) return null;
     gsap.set(media, { opacity: 0 });
-    return media;
+    return { media, pink };
   }
 
-  function releaseMedia(media) {
-    if (media) gsap.to(media, { opacity: 1, duration: 0.6, ease: 'power2.out' });
+  function releaseMedia(held) {
+    if (!held) return;
+    gsap.timeline()
+      .to(held.media, { opacity: 1, duration: 0.6, ease: 'power2.out' })
+      .to(held.pink, { autoAlpha: 0, duration: 0.4, ease: 'power1.inOut' });
+  }
+
+  // Cards the glide doesn't bring in wait on just their pink, like the grid on
+  // page load. Hiding the card itself would hide the pink too (opacity 0 on a
+  // parent beats the .pink-bg !important rule), so the card stays visible and
+  // its caption and media are hidden instead until it scrolls in.
+  const onPink = new Map();   // card → { info, media } hidden over its pink
+
+  function hideOverPink(card, duration = 0) {
+    const media = card.querySelector('.project-gradient img, .project-gradient video');
+    const parts = { info: card.querySelector('.project-info'), media: media && isLoaded(media) ? media : null };
+    onPink.set(card, parts);
+    gsap.to(parts.info, { autoAlpha: 0, duration, overwrite: 'auto' });
+    if (parts.media) gsap.to(parts.media, { opacity: 0, duration, overwrite: 'auto' });
+  }
+
+  function showOverPink(card, duration = 0.6) {
+    const parts = onPink.get(card);
+    if (!parts) return;
+    onPink.delete(card);
+    gsap.to(parts.info, { autoAlpha: 1, duration, ease: 'power2.out', overwrite: 'auto', clearProps: 'opacity,visibility' });
+    if (parts.media) gsap.to(parts.media, { opacity: 1, duration, ease: 'power2.out', overwrite: 'auto' });
   }
 
   // Moves the card's image/video into a fixed layer. The card keeps its size
@@ -547,6 +579,9 @@ document.addEventListener('DOMContentLoaded', () => {
         .filter(({ r }) => r.y - r.h / 2 < window.innerHeight * 0.75)
         .sort((p, q) => Math.hypot(p.r.x - slot.x, p.r.y - slot.y) - Math.hypot(q.r.x - slot.x, q.r.y - slot.y))
         .map(({ card }) => card);
+      // The rest come back as just their pink.
+      const below = rest.filter((card) => !onScreen.includes(card));
+      below.forEach((card) => hideOverPink(card));
 
       // 3 — one continuous glide into the slot; the grid assembles around it.
       const progress = { u: 0 };
@@ -566,26 +601,22 @@ document.addEventListener('DOMContentLoaded', () => {
         stagger: { each: 0.06, onComplete() { releaseMedia(held.get(this.targets()[0])); } },
         clearProps: 'opacity,visibility,transform',
       }, GLIDE_DURATION - 0.15);
+      glide.to(below, {
+        autoAlpha: 1, duration: 0.5, ease: 'power1.out',
+        clearProps: 'opacity,visibility,transform',
+      }, GLIDE_DURATION - 0.15);
       await glide;
 
-      // 4 — cards further down materialise one at a time as they scroll in.
+      // 4 — as cards further down scroll in, caption and media come in over
+      //     the pink (and go back to pink when scrolled back past).
       gridLayoutCtx.add(() => {
         rest.forEach((card) => {
           ScrollTrigger.create({
             trigger: card,
             start: 'top 75%',
             invalidateOnRefresh: true,
-            onEnter: () => {
-              const media = holdMedia(card);
-              gsap.to(card, {
-                autoAlpha: 1,  duration: .6, ease: 'power1.inOut',
-                clearProps: 'opacity,visibility,transform,scale',
-                onComplete: () => releaseMedia(media),
-              });
-            },
-            onLeaveBack: () => gsap.to(card, {
-              autoAlpha: 0,  duration: .3, ease: 'power1.inOut',
-            }),
+            onEnter:     () => showOverPink(card),
+            onLeaveBack: () => hideOverPink(card, 0.3),
           });
         });
       });
