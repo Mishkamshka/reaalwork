@@ -34,7 +34,7 @@ window.scrollTo(0, 0);
     const sizedUp = gsap.timeline({ delay: 0.3 })
       .to(allImg, {
         opacity:  1,
-        height:   '7vw',
+        height:   '6vw',
         duration: 0.45,
         ease:     'expo.inOut',
         stagger:  { each: 0.1, from: 'random' },
