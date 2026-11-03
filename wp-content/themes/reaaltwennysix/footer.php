@@ -18,7 +18,7 @@
 	<section class="pull-up">
 		<div class="outer-footer">
 			<div class="inner-footer">
-			<img src="<?php echo get_theme_file_uri('/inc/img/footer-reaal.webp') ?>" class="" alt="">
+			<img src="<?php echo get_theme_file_uri('/inc/img/REAAL-logo.png') ?>" class="" alt="">
 			</div>
 		</div>
 

@@ -307,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
       catTitles.forEach((title) => {
         ScrollTrigger.create({
           trigger: title,
-          start: `top top+=${totalHeightMenu}`,
+          start: `top top`,
           // Release when the pinned title's bottom meets the group's bottom.
           end: () => `bottom top+=${totalHeightMenu + title.offsetHeight}`,
           invalidateOnRefresh: true,
@@ -349,6 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
       s.classList.toggle('gx-2',     !isList);
     });
     projectHeaderEls.forEach((h) => h.classList.toggle('stretch-baby', isList));
+    projectsEl.classList.toggle('grid-work', !isList);
 
     if (isList) {
       killGridLayout();                 // revert pins before their wrappers go
@@ -357,12 +358,6 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.set('.projects', { clearProps: 'position' });
       initOgLayout();
       initProjectSections();
-      gsap.to(allImg, {
-        visibility: 'visible',
-        ease: 'steps(1)',
-        overwrite: true,
-        stagger: { from: 'random', each: 0.08 },
-      });
     } else {
       killProjectSections();            // reverts og + per-section contexts
       buildCategoryGroups();

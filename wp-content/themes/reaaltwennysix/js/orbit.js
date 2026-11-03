@@ -7,13 +7,9 @@ window.scrollTo(0, 0);
 
   if (!innerWords.length) return;
 
-  // mm re-runs the matching branch (and reverts the other) whenever the
-  // device is rotated between landscape and portrait.
   const mm = gsap.matchMedia();
 
   // ── HOME HERO PIN ──────────────────────────────────────────────────────────
-  // Pins the .home-holder section (the hero area) in place while the
-  // content below it scrolls up and over it.
   ScrollTrigger.create({
     trigger: '.home-holder',
     start: 'top top',
@@ -29,12 +25,12 @@ window.scrollTo(0, 0);
     let hasReleased = false;
 
     innerWords.forEach(el => { el.style.position = 'relative'; });
-    gsap.set(allImg, { marginBottom: '0vw' });
+    gsap.set(allImg, { marginBottom: '0vw',  height:   '6vw', visibility:"hidden",});
 
     const sizedUp = gsap.timeline({ delay: 0.3 })
       .to(allImg, {
         opacity:  1,
-        height:   '6vw',
+       visibility:"visible",
         duration: 0.45,
         ease:     'expo.inOut',
         stagger:  { each: 0.1, from: 'random' },
@@ -63,7 +59,7 @@ window.scrollTo(0, 0);
       hasReleased = true;
       smoother.paused(false);
 
-      gsap.set(allImg, { opacity: 1, height: '7vw', marginBottom: 'inherit' });
+      gsap.set(allImg, { opacity: 1, height: '6vw', marginBottom: 'inherit' });
       ScrollTrigger.refresh();
 
       const projectsEl = document.querySelector('.projects');

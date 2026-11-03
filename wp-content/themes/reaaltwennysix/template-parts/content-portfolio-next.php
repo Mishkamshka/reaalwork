@@ -1,5 +1,5 @@
  <div class="next-projects row" id="next-work">
- <div class="col-md-6 ms-md-auto">
+ <div class="col-6 ms-auto">
      <div class="more-projects">
          <h1>More</h1>
      </div>
@@ -31,7 +31,7 @@
      <a href="<?php the_permalink(); ?>">
          <div class="next-project">
                  <div class="next-project-title col-md-3">
-                     <p class="project-into-title"><?php the_title(); ?></p>
+                     <p class="project-into-title"><b><?php the_title(); ?></b></p>
                  </div>
 
                  <div class="next-project-desc col-md-6">

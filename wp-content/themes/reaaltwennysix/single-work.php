@@ -30,24 +30,27 @@ get_header();
 
             <section class="stretch-mama ">
                 <div class="work-page-top">
-                <div class="top-info">
-                    <h1><?php echo get_the_title(); ?></h1>
-                        <div class="about-text-holder col-md-6">
+                    <div class="top-info">
+                        <h1><?php echo get_the_title(); ?></h1>
+                        <div class="about-text-holder col-md-6 col-sm-8">
                             <div class="about-text">
                                 <?php $cats = get_the_terms(get_the_ID(), 'category');
                                 if ($cats && ! is_wp_error($cats)) : $last = end($cats); ?>
-                                    <div class="col-md-2">
-                                        <p><span>Category</span></p>
+                                    <div class="col-title">
+                                        <p><b>Category</b></p>
                                     </div>
-                                    <?php foreach ($cats as $cat) : ?><p class="about-text-p"><a href="<?php echo esc_url(get_term_link($cat)); ?>"><?php echo esc_html($cat->name); ?></a><?php echo ($cat !== $last) ? ', ' : ''; ?></p><?php endforeach; ?>
-                                <?php endif; ?>
+                                    <p class="about-text-p">
+                                        <?php foreach ($cats as $cat) : ?>
+                                            <a href="<?php echo esc_url(get_term_link($cat)); ?>"><?php echo esc_html($cat->name); ?></a><?php echo ($cat !== $last) ? ', ' : ''; ?><?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </p>
                             </div>
 
                             <div class="about-text">
                                 <?php $cats = get_the_terms(get_the_ID(), 'sector');
                                 if ($cats && ! is_wp_error($cats)) : $last = end($cats); ?>
-                                    <div class="col-md-2">
-                                        <p><span>Sector</span></p>
+                                    <div class="col-title">
+                                        <p><b>Sector</b></p>
                                     </div>
                                     <?php foreach ($cats as $cat) : ?><p class="about-text-p"><a href="<?php echo esc_url(get_term_link($cat)); ?>"><?php echo esc_html($cat->name); ?></a><?php echo ($cat !== $last) ? ', ' : ''; ?></p><?php endforeach; ?>
                                 <?php endif; ?>
@@ -55,8 +58,8 @@ get_header();
 
                             <?php if (get_field('year')) : ?>
                                 <div class="about-text">
-                                    <div class="col-md-2">
-                                        <p><span>Year</span></p>
+                                    <div class="col-title">
+                                        <p><b>Year</b></p>
                                     </div>
                                     <p class="about-text-p"><?php echo esc_html(get_field('year')); ?></p>
                                 </div>
@@ -64,22 +67,22 @@ get_header();
 
                             <?php if (get_field('live')) : ?>
                                 <div class="about-text">
-                                    <div class="col-md-2">
-                                        <p><span>Link</span></p>
+                                    <div class="col-title">
+                                        <p><b>Link</b></p>
                                     </div>
                                     <a href="<?php echo esc_url(get_field('live')); ?>" target="_blank" rel="noopener noreferrer">
-                                        <p class="about-text-p">↳ <?php echo esc_html(rtrim(preg_replace('#^https?://#', '', get_field('live')), '/')); ?></p>
+                                        <p>↳ <?php echo esc_html(rtrim(preg_replace('#^https?://#', '', get_field('live')), '/')); ?></p>
                                     </a>
                                 </div>
                             <?php endif; ?>
                         </div>
-                </div>
+                    </div>
 
 
                     <div class="col-md-6">
                         <?php if (get_field('problem')) : ?>
                             <div class="bottom-problem">
-                                <p><span><?php echo wp_kses_post(get_field('problem')); ?></span></p>
+                                <p><b><?php echo wp_kses_post(get_field('problem')); ?></b></p>
                                 <p><?php echo wp_kses_post(get_field('solution')); ?></p>
                             </div>
                         <?php endif; ?>
