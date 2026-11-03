@@ -499,7 +499,7 @@ div#grid-switch-btn-bk {
 
 /* Company/description fills the rest of the row and truncates */
 .project-company {
-  flex: 1 1 0%;
+  flex: 0 1 auto;   
   min-width: 0;
   margin-bottom: 0;
   white-space: nowrap;
@@ -557,7 +557,7 @@ a.no-click{
 .project-info-cats {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   width: 100%;
 }
  .project-info-cats {
@@ -746,13 +746,22 @@ section.project-sections.grid:hover .project-info {
 }
 
 .og-layout .project-info:hover {
-  background: var(--black);
   mix-blend-mode: normal;
   text-transform: uppercase;
 }
+
+.og-layout .project-info:hover p {
+  color: #fff;
+  background: var(--black);
+  mix-blend-mode: normal;
+}
 section.project-sections p {
   margin-bottom: 0 !important;
-  line-height: 1.2 !important;
+  line-height: 1 !important;
+  padding-top: 2px;
+}
+section.project-sections p b{
+  line-height: .8 !important;
 }
 
 .project-sections:has(.project-img a:hover) .project-info-cats p {
@@ -760,10 +769,16 @@ section.project-sections p {
       z-index: 2;
 }
 
-.project-sections:has(.project-img a:hover) .project-info {
+
+.project-sections:has(.project-img a:hover) p {
+   color: #fff;
   background: var(--black);
   mix-blend-mode: normal;
 
+}
+
+.og-layout:has(.project-img a:hover) .project-info {
+  mix-blend-mode: normal;
 }
 
 .work-page-top{
