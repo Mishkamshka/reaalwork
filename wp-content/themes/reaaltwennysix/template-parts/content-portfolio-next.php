@@ -34,17 +34,20 @@
         ));
         ?>
      <?php while ($loop->have_posts()) : $loop->the_post(); ?>
-     <a<?php echo reaaltwennysix_work_href(); ?>>
-         <div class="next-project">
-                 <div class="next-project-title col-md-3">
-                     <p class="project-into-title"><b><?php the_title(); ?></b></p>
+     
+         <div class="next-project col-md-6">
+                 <div class="next-project-title">
+                    <a<?php echo reaaltwennysix_work_href(); ?>>
+                        <p class="project-into-title"><b><?php the_title(); ?></b></p>
+                    </a>
                  </div>
 
-                 <div class="next-project-desc col-md-6">
-                     <p><?php echo wp_kses_post(get_field('company')); ?></p>
+                 <div class="next-project-desc">
+                    <a<?php echo reaaltwennysix_work_href(); ?>>
+                        <p><?php echo wp_kses_post(get_field('company')); ?></p>
+                    </a>
                  </div>
              </div>
-         </a>
 
 
 

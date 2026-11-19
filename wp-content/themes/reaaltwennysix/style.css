@@ -38,8 +38,16 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
 }
 
 
+@font-face {
+  font-family: "ABC Areal Mono";
+  src: url("inc/fonts/ABCArealMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
+  --font-mono: "ABC Areal Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 	--pink: rgb(254, 0, 254);
 	--light: rgb(255, 153, 255);
 	--black: rgb(11, 28, 22);
@@ -262,7 +270,7 @@ section.info-head {
   justify-content: space-between;
   min-height:100vh;
   position: relative;
-  padding-top: 3rem;
+  padding-top: 7.5vh;
 }
 
 .key {
@@ -415,14 +423,8 @@ div#grid-switch-btn-bk {
 
 
  .grid h2{
-		font-size: 1rem;
-			font-variation-settings: 'wght' 550, 'wdth' 100;
-    font-weight: 550;
-    line-height: 1.2;
-    letter-spacing: -0.05rem;
     text-transform: uppercase;
-	font-family: "iki-mono-variable", sans-serif;
-
+    font-family: var(--font-mono);
 }
 
 .next-projects .project-sections:hover .project-info-details{
@@ -724,13 +726,10 @@ section.project-sections.og-layout {
 }
 
 .about-text-holder {
-  padding-top: 3rem;
+  padding-top: 15vh;
+  padding-bottom: 15vh;
 }
 
-.bottom-problem {
-  margin-bottom: calc(var(--bs-gutter-x) * .5);
-  padding-top: 3rem;
-}
 
 .og-layout .project-info {
   position: absolute;
@@ -786,11 +785,9 @@ section.project-sections p b{
 }
 
 .work-page-top{
-  padding-top: 3rem;
-    display: flex;
+  display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: calc(90vh + 1px);
+  padding-top: 7.5vh;
 }
 /* .top-info{
   padding-bottom: 33vh;
@@ -885,9 +882,8 @@ span.square {
   padding-top: calc(var(--bs-gutter-x) * .25);
 }
 
-.next-projects a {
-  margin: calc(var(--bs-gutter-x) * .5) 0;
-  display: block;
+.next-project {
+  margin-bottom: calc(var(--bs-gutter-x) * .5);
 }
 
 .next-projects .project-img {
@@ -920,7 +916,7 @@ span.square {
 } */
 
 .more-projects {
-  padding-top: calc(var(--bs-gutter-x) * .5);
+  margin-top: calc(var(--bs-gutter-x) * -2);
 }
 
 .home-intro {
@@ -1441,10 +1437,8 @@ abbr[title] {
 
 b,
 strong {
-  font-weight: 400;
-  font-family: 'OficiaMono', sans-serif;
-  letter-spacing: 0.03rem;
-  line-height: 1;
+  font-weight: inherit;
+  text-transform: uppercase;
 }
 
 
@@ -1675,12 +1669,11 @@ select,
 optgroup,
 textarea {
 	color: var(--black);
-	font-family: "iki-mono-variable", sans-serif;
+  font-family: var(--font-mono);
 	font-size: 14px;
 	line-height: 1.4;
 	letter-spacing: -0.055rem;
-  font-variation-settings: 'wght' 300, 'wdth' 100;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 h1,
@@ -1698,7 +1691,7 @@ h1 {
   line-height: 1;
   font-weight: 300;
   font-family: 'OficiaMono', sans-serif;
-  letter-spacing: clamp(.15rem, 0.5rem, 1rem);
+  letter-spacing: clamp(0.132rem, 0.3795vw, 0.429vw);
   -webkit-text-stroke: clamp(.15rem, 0.6vw, 0.7vw) var(--black);
   /* text-box: trim-both cap text; */
   display: inline-block;
@@ -1748,12 +1741,11 @@ span {
 }
 
 
-h5, li.menu-item{
+h5, li.menu-item {
   font-size: .9rem;
   font-weight: 500;
-	  letter-spacing: 0;
+  letter-spacing: .03rem;
   font-family: 'OficiaMono', sans-serif;
-
 }
 
 
@@ -2043,15 +2035,13 @@ textarea {
   padding: calc(var(--bs-gutter-x) * .25);
   /* transition: ease all .2s; */
   padding-top: calc(var(--bs-gutter-x) * .125);
+  background-color: #fff;
 }
 
 
 .main-navigation a {
 	display: block;
 	text-decoration: none;
-	color: #fff;
-    /* transition: ease all .2s; */
-
 }
 
 .main-navigation li:hover {
@@ -2068,12 +2058,36 @@ header#masthead {
   z-index: 10;
   position: fixed;
   align-items: start;
-  top:0;
+  top: 0;
   left: 0;
+  padding:0.5rem
 }
 
 nav#site-navigation {
   width: 100%;
+}
+
+.header-text {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 50.3333%;
+}
+
+.header-text p {
+  margin-bottom: 0;
+  background: rgb(255 255 255);
+  padding: 0 .25rem 0 .25rem;
+}
+
+.header-text h5 {
+  background: var(--pink);
+  padding: 0 .25rem 0 .25rem;
+}
+
+.header-text h5,
+.header-text p {
+  display: flex;
+  align-items: center;
 }
 /* .work-menu {
   margin-right: 3.2%;
@@ -2105,10 +2119,8 @@ nav#site-navigation {
 
 .main-navigation ul {
   display: flex;
-  justify-content: center;
-  width: 100%;
-  background: var(--black);
-  gap: .5rem;
+  width: 24.3%;
+  justify-content: space-between;
 }
 
 .site-main .comment-navigation,

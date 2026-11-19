@@ -29,8 +29,9 @@
 	<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'reaaltwennysix' ); ?></a>
 
 	<header id="masthead" class="site-header">
-		<div class="site-branding">
-			<?php the_custom_logo();?>
+		<div class="header-text">
+			<h5>REAAL PRACTICE.</h5>
+			<p>Craft, culture + community</p>
 		</div><!-- .site-branding -->
 
 		<nav id="site-navigation" class="main-navigation">

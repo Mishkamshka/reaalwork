@@ -28,11 +28,11 @@ get_header();
 
         <?php else : ?>
 
-            <section class="stretch-mama ">
+            <section class="stretch-mama">
                 <div class="work-page-top">
                     <div class="top-info">
                         <h1><?php echo get_the_title(); ?></h1>
-                        <div class="about-text-holder col-md-6 col-sm-8">
+                        <div class="about-text-holder offset-sm-6 col-sm-6 ">
                             <div class="about-text">
                                 <?php $cats = get_the_terms(get_the_ID(), 'category');
                                 if ($cats && ! is_wp_error($cats)) : $last = end($cats); ?>
@@ -79,10 +79,10 @@ get_header();
                     </div>
 
 
-                    <div class="offset-md-4 col-md-8">
+                    <div class="offset-sm-6 col-sm-6">
                         <?php if (get_field('problem')) : ?>
                             <div class="bottom-problem">
-                                <p><b><?php echo wp_kses_post(get_field('problem')); ?></b></p>
+                                <h5><?php echo wp_kses_post(get_field('problem')); ?></h5>
                                 <p><?php echo wp_kses_post(get_field('solution')); ?></p>
                             </div>
                         <?php endif; ?>
