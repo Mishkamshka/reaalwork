@@ -79,7 +79,7 @@ get_header();
                     </div>
 
 
-                    <div class="col-md-6">
+                    <div class="offset-md-4 col-md-8">
                         <?php if (get_field('problem')) : ?>
                             <div class="bottom-problem">
                                 <p><b><?php echo wp_kses_post(get_field('problem')); ?></b></p>

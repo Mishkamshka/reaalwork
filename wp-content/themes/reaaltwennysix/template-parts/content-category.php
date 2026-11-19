@@ -9,7 +9,7 @@
              <div class="w-100">
                  <div class="single-project">
                      <div class="project-img">
-                                                  <a href="<?php the_permalink(); ?>">
+                                                  <a<?php echo reaaltwennysix_work_href(); ?>>
                             <div class="project-gradient<?php echo (get_field('video')) ? ' has-video' : ''; ?>">
 
 
@@ -60,7 +60,7 @@
 
 
 <div class="project-info">
-                         <a href="<?php the_permalink(); ?>">
+                         <a<?php echo reaaltwennysix_work_href(); ?>>
                              
                              <div class="project-info-cats">
                                     

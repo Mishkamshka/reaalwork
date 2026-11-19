@@ -9,11 +9,11 @@
          <?php $primary_cats = get_the_terms(get_the_ID(), 'sector');
             $primary_slug = ($primary_cats && !is_wp_error($primary_cats)) ? $primary_cats[0]->slug : 'uncategorized';
             $primary_name = ($primary_cats && !is_wp_error($primary_cats)) ? $primary_cats[0]->name : 'Uncategorized'; ?>
-         <section class="project-sections og-layout<?php echo post_password_required() ? ' super-locked' : ''; ?>" data-category="<?php echo esc_attr($primary_slug); ?>" data-category-name="<?php echo esc_attr($primary_name); ?>">
+         <section class="project-sections og-layout<?php echo post_password_required() ? ' super-locked' : ''; ?><?php echo get_field('coming_soon') ? ' coming-soon' : ''; ?>" data-category="<?php echo esc_attr($primary_slug); ?>" data-category-name="<?php echo esc_attr($primary_name); ?>">
              <div class="stretch-baby w-100">
                  <div class="single-project">
                      <div class="project-img">
-                         <a href="<?php the_permalink(); ?>" aria-label="<?php the_title(); ?>">
+                         <a<?php echo reaaltwennysix_work_href(); ?> aria-label="<?php the_title(); ?>">
                              <div class="project-gradient<?php echo (get_field('video')) ? ' has-video' : ''; ?>">
 
                                 <?php
@@ -67,12 +67,15 @@
              </div>
 
                      <div class="project-info">
-                         <a href="<?php the_permalink(); ?>">
+                         <a<?php echo reaaltwennysix_work_href(); ?>>
                              
                              <div class="project-info-cats">
                                     
                                     <p class="project-info-details project-into-title"><b><?php the_title(); ?></b></p>
-                                    <p class="project-company"><?php echo wp_kses_post(get_field('company')); ?></p>
+                                    <?php if (get_field('company')) : ?><p class="project-company"><?php echo wp_kses_post(get_field('company')); ?></p> <?php endif; ?>
+                                    <?php if (get_field('coming_soon')) : ?>
+                                        <p class="project-coming-soon">Coming soon</p>
+                                    <?php endif; ?>
                                     <p class="project-info-details dates project-into-title"><b><?php echo esc_html( get_field('year') ); ?></b></p>
                                     <p class="project-cat">
                                  <?php $postCats = get_the_terms(get_the_ID(), 'category');

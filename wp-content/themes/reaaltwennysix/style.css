@@ -13,6 +13,10 @@ Text Domain: reaaltwennysix
 Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
 */
 
+.bottom-problem p:not(:last-child) {
+  margin-bottom: 0;
+}
+
 .flex{
     display: flex;
   flex-wrap: wrap;
@@ -457,7 +461,7 @@ div#grid-switch-btn-bk {
 .grid .single-project {
     height: 100%;
     display: flex;
-    aspect-ratio: 1.25 / 1;
+    aspect-ratio: 3 / 4;
 }
 
 .grid.project-sections {
@@ -1439,7 +1443,7 @@ b,
 strong {
   font-weight: 400;
   font-family: 'OficiaMono', sans-serif;
-  letter-spacing: 0.02rem;
+  letter-spacing: 0.03rem;
   line-height: 1;
 }
 
@@ -1694,12 +1698,11 @@ h1 {
   line-height: 1;
   font-weight: 300;
   font-family: 'OficiaMono', sans-serif;
-  letter-spacing: 0;
-  -webkit-text-stroke: clamp(.15rem, .4vw, .4vw) var(--black);
+  letter-spacing: clamp(.15rem, 0.5rem, 1rem);
+  -webkit-text-stroke: clamp(.15rem, 0.6vw, 0.7vw) var(--black);
   /* text-box: trim-both cap text; */
   display: inline-block;
 }
-
 h2 {
   margin: 0;
   font-style: normal;
@@ -2487,13 +2490,13 @@ nav#site-navigation {
 }
 @media (min-width: 768px) {
     .grid {
-        width: 50%;
+        width: 33.3333%;
     }
   }
 
 @media (min-width: 1024px) {
     .grid {
-        width: 33.3333%;
+        width: 25%;
     }
   }
 
@@ -2748,4 +2751,9 @@ footer{
   .home-intro {
     padding-bottom: 2rem;
 }
+}
+/* Coming soon work posts: link has no href, so show a normal cursor */
+.project-sections a:not([href]),
+.next-projects a:not([href]) {
+  cursor: default;
 }

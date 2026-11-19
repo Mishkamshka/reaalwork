@@ -433,3 +433,25 @@ function reaaltwennysix_mp4_display_size( $file ) {
 
 	return $size;
 }
+
+/**
+ * Link attribute for a work post in the loop. When the post's ACF "coming_soon"
+ * toggle is on there is no href at all, so the <a> is not clickable or focusable.
+ */
+function reaaltwennysix_work_href() {
+	if ( get_field( 'coming_soon' ) ) {
+		return '';
+	}
+	return ' href="' . esc_url( get_permalink() ) . '"';
+}
+
+/**
+ * Coming-soon work posts have no public page yet: send direct visits home.
+ * Logged-in editors can still view them.
+ */
+add_action( 'template_redirect', function () {
+	if ( is_singular( 'work' ) && get_field( 'coming_soon', get_queried_object_id() ) && ! current_user_can( 'edit_posts' ) ) {
+		wp_safe_redirect( home_url( '/' ) );
+		exit;
+	}
+} );

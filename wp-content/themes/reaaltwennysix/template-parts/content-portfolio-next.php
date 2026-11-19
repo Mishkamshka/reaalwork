@@ -10,6 +10,12 @@
             'orderby'        => 'date',
             'order'          => 'DESC',
             'fields'         => 'ids',
+            // Skip work flagged "Coming soon" (posts saved before the field existed have no meta).
+            'meta_query'     => array(
+                'relation' => 'OR',
+                array('key' => 'coming_soon', 'compare' => 'NOT EXISTS'),
+                array('key' => 'coming_soon', 'value' => '1', 'compare' => '!='),
+            ),
         ));
 
         $current_index = array_search(get_the_ID(), $all_ids);
@@ -28,7 +34,7 @@
         ));
         ?>
      <?php while ($loop->have_posts()) : $loop->the_post(); ?>
-     <a href="<?php the_permalink(); ?>">
+     <a<?php echo reaaltwennysix_work_href(); ?>>
          <div class="next-project">
                  <div class="next-project-title col-md-3">
                      <p class="project-into-title"><b><?php the_title(); ?></b></p>
