@@ -45,6 +45,13 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: "ABC Areal Mono";
+  src: url("inc/fonts/ABCArealMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --font-mono: "ABC Areal Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
@@ -787,7 +794,7 @@ section.project-sections p b{
 .work-page-top{
   display: flex;
   flex-direction: column;
-  padding-top: 7.5vh;
+  /* margin-top: 7.5vh; */
 }
 /* .top-info{
   padding-bottom: 33vh;
@@ -833,11 +840,16 @@ p.project-cat {
 }
 
 
-span.square {
-  background: var(--pink);
-  width: 7px;
-  display: inline-block;
-  aspect-ratio: 1 / 1;
+
+@media (min-width:769px) {
+section.project-sections p{
+    white-space: normal;
+}
+
+.grid p.project-info-details.dates.project-into-title, .grid p.project-cat{
+  display: none;
+}
+
 }
 /* .project-info h2, .project-info-cats p, .project-info-cats h6, .project-desc h4, .white-bk {
   display: inline;
@@ -1437,7 +1449,7 @@ abbr[title] {
 
 b,
 strong {
-  font-weight: inherit;
+  font-weight: 500;
   text-transform: uppercase;
 }
 
@@ -1717,14 +1729,13 @@ h3{
 }
 
 p, .services li {
-	margin-bottom: .5rem;
-	line-height: 1.4;
+  margin-bottom: .5rem;
+  line-height: 1.2;
   margin-top: 0;
   font-size: clamp(.8rem, 1vw, 1.3rem);
   font-size: 14px;
-	letter-spacing: -0.055rem;
-  font-variation-settings: 'wght' 300, 'wdth' 100;
-  font-weight: 300;
+  letter-spacing: 0;
+  font-weight: 400;
   text-align: justify;
 }
 

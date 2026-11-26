@@ -100,7 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
       el.style.paddingTop = `${ totalHeightMenu}px`;
       el.style.paddingBottom = `${ totalHeightMenu}px`;
     });
-    
+    document.querySelectorAll('.grid-work').forEach((el) => {
+      el.style.paddingTop = `${totalHeightMenu}px`;
+    });
+
   }
 
   // mm = gsap media query helper, used throughout to branch desktop vs mobile
@@ -307,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
       catTitles.forEach((title) => {
         ScrollTrigger.create({
           trigger: title,
-          start: `top top`,
+          start: `top top+=${totalHeightMenu}`,
           // Release when the pinned title's bottom meets the group's bottom.
           end: () => `bottom top+=${totalHeightMenu + title.offsetHeight}`,
           invalidateOnRefresh: true,
@@ -350,6 +353,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     projectHeaderEls.forEach((h) => h.classList.toggle('stretch-baby', isList));
     projectsEl.classList.toggle('grid-work', !isList);
+        document.querySelectorAll('.grid-work').forEach((el) => {
+      el.style.paddingTop = `${totalHeightMenu}px`;
+    });
 
     if (isList) {
       killGridLayout();                 // revert pins before their wrappers go
@@ -811,6 +817,17 @@ gsap.fromTo(".archive .project-sections",  { autoAlpha: 0, y: 24 }, { autoAlpha:
   });
 
 
+
+gsap.utils.toArray('.work-page-top h1').forEach((title) => {
+  ScrollTrigger.create({
+    trigger: title,
+    start: `top top+=${totalHeightMenu}`,
+    endTrigger: title.closest('.work-page-top'),
+    end: () => `bottom top+=${totalHeightMenu + title.offsetHeight}`,
+    pin: true,
+    pinSpacing: false,
+  });
+});
 
     
 });////END OF DOUCMENT

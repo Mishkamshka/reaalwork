@@ -20,9 +20,9 @@ get_header();
 
            <div class="row">
              <div class="info-head_body col-md-4">
-                <p><span>That's the whole story</span></p>
+                <h5>That's the whole story</h5>
             </div>
-             <div class="info-head_body col-md-8">
+             <div class="info-head_body offset-md-2 col-md-6">
                 <p><?php echo wp_kses_post(get_field('info_section')); ?></p>
             </div>
            </div>
@@ -40,7 +40,7 @@ get_header();
             </div>
             <div class="service-body row">
                 <div class="col-md-4">
-                   <p><span>Services</span></p>
+                  <h5>Services</h5>
                 </div>
                 <div class="col-md-8">
                      <p><?php echo wp_kses_post(get_field('service_section_text')); ?></p>
